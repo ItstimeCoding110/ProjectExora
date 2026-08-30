@@ -546,7 +546,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Init testimonials loader
+    // Initialize static HTML testimonial cards click handlers immediately
+    function initStaticCards() {
+        const staticCards = document.querySelectorAll('.testimonial-card[data-images]');
+        staticCards.forEach(card => {
+            try {
+                const images = JSON.parse(card.getAttribute('data-images') || '[]');
+                const caption = card.getAttribute('data-caption') || 'Bukti Transaksi';
+                const imageCover = card.querySelector('.testi-image-cover');
+                const clickHint = card.querySelector('.testi-click-hint');
+                if (imageCover) {
+                    imageCover.onclick = () => openLightbox(images, 0, caption);
+                }
+                if (clickHint) {
+                    clickHint.onclick = () => openLightbox(images, 0, caption);
+                }
+            } catch(e) {}
+        });
+    }
+
+    initStaticCards();
     loadTestimonials();
 });
 

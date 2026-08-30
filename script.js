@@ -248,43 +248,68 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentGalleryIndex = 0;
     let currentGalleryCaption = '';
 
-    // Starter / Fallback Testimonials Data (Safe for local file:// preview)
+    // Starter / Fallback Testimonials Data (Safe for local file:// preview & instant rendering)
     const fallbackTestimonials = [
         {
-            id: 'exora-t-1',
-            name: 'R***n A.',
-            package: 'Akun Pribadi (18 Bulan)',
+            id: "exora-t-1788053872245",
+            name: "H***s",
+            package: "Akun Pribadi (18 Bulan)",
             rating: 5,
-            date: '28 Agustus 2026',
-            images: ['assets/testimonials/testi-01.webp'],
+            date: "30 Agustus 2026",
+            images: [
+                "assets/testimonials/testi-1788053865421-1.webp",
+                "assets/testimonials/testi-1788053866343-2.webp",
+                "assets/testimonials/testi-1788053867087-3.webp"
+            ],
             verified: true,
-            comment: 'Proses cepat banget gak sampe 5 menit langsung masuk 5 TB dan Gemini Pro aktif. Mantap!'
+            comment: ""
         },
         {
-            id: 'exora-t-2',
-            name: 'D***s P.',
-            package: 'Invite Sharing Family (18 Bulan)',
+            id: "exora-t-1788053818716",
+            name: "L******y",
+            package: "Akun Pribadi (18 Bulan)",
             rating: 5,
-            date: '27 Agustus 2026',
-            images: ['assets/testimonials/testi-02.webp'],
+            date: "29 Agustus 2026",
+            images: [
+                "assets/testimonials/testi-1788053797091-1.webp",
+                "assets/testimonials/testi-1788053797662-2.webp"
+            ],
             verified: true,
-            comment: 'Awalnya ragu tapi ternyata beneran aman dan privasi file tetep privat. Adminnya fast respon.'
+            comment: ""
         },
         {
-            id: 'exora-t-3',
-            name: 'A***d F.',
-            package: 'Akun Pribadi (18 Bulan)',
+            id: "exora-t-1788053719179",
+            name: "C*****y",
+            package: "Akun Pribadi (18 Bulan)",
             rating: 5,
-            date: '26 Agustus 2026',
-            images: ['assets/testimonials/testi-03.webp'],
+            date: "19 Agustus 2026",
+            images: [
+                "assets/testimonials/testi-1788053704064-1.webp",
+                "assets/testimonials/testi-1788053705182-2.webp",
+                "assets/testimonials/testi-1788053705703-3.webp"
+            ],
             verified: true,
-            comment: 'Hemat banget dibanding langganan resmi bulanan. Fitur Deep Research-nya ngebantu skripsi.'
+            comment: ""
+        },
+        {
+            id: "exora-t-1788053371249",
+            name: "S******i",
+            package: "Akun Pribadi (18 Bulan)",
+            rating: 5,
+            date: "29 Agustus 2026",
+            images: [
+                "assets/testimonials/testi-1788053320016-1.webp",
+                "assets/testimonials/testi-1788053320632-2.webp",
+                "assets/testimonials/testi-1788053321485-3.webp"
+            ],
+            verified: true,
+            comment: ""
         }
     ];
 
     // Render single testimonial card using safe DOM methods
     function renderTestimonialCard(item) {
-        const images = item.images || (item.image ? [item.image] : ['assets/testimonials/testi-01.webp']);
+        const images = item.images || (item.image ? [item.image] : ['assets/testimonials/testi-1788053865421-1.webp']);
         
         const card = document.createElement('div');
         card.className = 'testimonial-card reveal';
@@ -400,28 +425,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let dataToRender = fallbackTestimonials;
 
-        // Try checking local storage first for updated data
-        const localSaved = localStorage.getItem('exora_local_testimonials');
-        if (localSaved) {
-            try {
-                const parsed = JSON.parse(localSaved);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    dataToRender = parsed;
+        // Fetch from server data/testimonials.json with cache buster
+        try {
+            const response = await fetch(`data/testimonials.json?v=${Date.now()}`, { cache: 'no-store' });
+            if (response.ok) {
+                const fetchedData = await response.json();
+                if (Array.isArray(fetchedData) && fetchedData.length > 0) {
+                    dataToRender = fetchedData;
                 }
-            } catch (e) {}
-        } else {
-            // Try fetching from server data/testimonials.json
-            try {
-                const response = await fetch('data/testimonials.json');
-                if (response.ok) {
-                    const fetchedData = await response.json();
-                    if (Array.isArray(fetchedData) && fetchedData.length > 0) {
-                        dataToRender = fetchedData;
-                    }
-                }
-            } catch (err) {
-                // Fallback to static array on CORS or offline
             }
+        } catch (err) {
+            // Use fallbackTestimonials if offline
         }
 
         testimonialsContainer.innerHTML = '';

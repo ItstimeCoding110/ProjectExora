@@ -235,6 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ─── 10. Testimonials & Lightbox Modal Gallery ───
     const testimonialsContainer = document.getElementById('testimonials-container');
+    const allTestimonialsContainer = document.getElementById('all-testimonials-container');
     const lightboxModal = document.getElementById('lightbox-modal');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
@@ -421,7 +422,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load and render all testimonials
     async function loadTestimonials() {
-        if (!testimonialsContainer) return;
+        const targetContainer = allTestimonialsContainer || testimonialsContainer;
+        if (!targetContainer) return;
 
         let dataToRender = fallbackTestimonials;
 
@@ -438,17 +440,20 @@ document.addEventListener('DOMContentLoaded', () => {
             // Use fallbackTestimonials if offline
         }
 
-        testimonialsContainer.innerHTML = '';
+        targetContainer.innerHTML = '';
         dataToRender.forEach(item => {
             const cardEl = renderTestimonialCard(item);
-            testimonialsContainer.appendChild(cardEl);
+            targetContainer.appendChild(cardEl);
         });
 
-        applyTestimonialLimit();
+        // Only apply 4-card pagination on index.html (testimonialsContainer)
+        if (testimonialsContainer && !allTestimonialsContainer) {
+            applyTestimonialLimit();
+        }
 
         // Trigger reveal animation for newly added cards
         if ('IntersectionObserver' in window) {
-            const newReveals = testimonialsContainer.querySelectorAll('.reveal');
+            const newReveals = targetContainer.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -459,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, { threshold: 0.1 });
             newReveals.forEach(el => observer.observe(el));
         } else {
-            testimonialsContainer.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+            targetContainer.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
         }
     }
 

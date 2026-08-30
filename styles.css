@@ -1205,6 +1205,26 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
 }
 
+.btn-back-home {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--color-primary);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 7px 16px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s var(--ease-smooth-out);
+}
+
+.btn-back-home:hover {
+    background: var(--color-primary);
+    color: #FFFFFF;
+    border-color: var(--color-primary);
+}
+
 .testimonial-card.testi-card-hidden {
     display: none !important;
 }

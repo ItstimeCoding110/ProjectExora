@@ -444,6 +444,8 @@ document.addEventListener('DOMContentLoaded', () => {
             testimonialsContainer.appendChild(cardEl);
         });
 
+        applyTestimonialLimit();
+
         // Trigger reveal animation for newly added cards
         if ('IntersectionObserver' in window) {
             const newReveals = testimonialsContainer.querySelectorAll('.reveal');
@@ -546,6 +548,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ─── 11. Testimonials Pagination (Max 4 Cards + Load More) ───
+    const MAX_INITIAL_TESTIMONIALS = 4;
+    const testiLoadMoreWrap = document.getElementById('testi-load-more-wrap');
+    const btnLoadMoreTesti = document.getElementById('btn-load-more-testi');
+
+    function applyTestimonialLimit() {
+        if (!testimonialsContainer) return;
+        const allCards = testimonialsContainer.querySelectorAll('.testimonial-card');
+        
+        if (allCards.length > MAX_INITIAL_TESTIMONIALS) {
+            allCards.forEach((card, index) => {
+                if (index >= MAX_INITIAL_TESTIMONIALS) {
+                    card.classList.add('testi-card-hidden');
+                } else {
+                    card.classList.remove('testi-card-hidden');
+                }
+            });
+            if (testiLoadMoreWrap) testiLoadMoreWrap.style.display = 'flex';
+        } else {
+            allCards.forEach(card => card.classList.remove('testi-card-hidden'));
+            if (testiLoadMoreWrap) testiLoadMoreWrap.style.display = 'none';
+        }
+    }
+
+    if (btnLoadMoreTesti) {
+        btnLoadMoreTesti.addEventListener('click', () => {
+            const allCards = testimonialsContainer.querySelectorAll('.testimonial-card');
+            allCards.forEach(card => {
+                card.classList.remove('testi-card-hidden');
+                card.classList.add('is-visible');
+            });
+            if (testiLoadMoreWrap) testiLoadMoreWrap.style.display = 'none';
+        });
+    }
+
     // Initialize static HTML testimonial cards click handlers immediately
     function initStaticCards() {
         const staticCards = document.querySelectorAll('.testimonial-card[data-images]');
@@ -563,6 +600,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch(e) {}
         });
+        applyTestimonialLimit();
     }
 
     initStaticCards();

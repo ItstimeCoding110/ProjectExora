@@ -1205,10 +1205,14 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
 }
 
-.testimonial-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
-    border-color: rgba(56, 189, 248, 0.4);
+.testimonial-card.testi-card-hidden {
+    display: none !important;
+}
+
+.testi-load-more-wrap {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
 }
 
 .testi-image-cover {

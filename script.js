@@ -565,21 +565,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     card.classList.remove('testi-card-hidden');
                 }
             });
-            if (testiLoadMoreWrap) testiLoadMoreWrap.style.display = 'flex';
         } else {
             allCards.forEach(card => card.classList.remove('testi-card-hidden'));
-            if (testiLoadMoreWrap) testiLoadMoreWrap.style.display = 'none';
         }
+        if (testiLoadMoreWrap) testiLoadMoreWrap.style.display = 'flex';
     }
 
     if (btnLoadMoreTesti) {
         btnLoadMoreTesti.addEventListener('click', () => {
-            const allCards = testimonialsContainer.querySelectorAll('.testimonial-card');
-            allCards.forEach(card => {
-                card.classList.remove('testi-card-hidden');
-                card.classList.add('is-visible');
-            });
-            if (testiLoadMoreWrap) testiLoadMoreWrap.style.display = 'none';
+            const hiddenCards = testimonialsContainer.querySelectorAll('.testimonial-card.testi-card-hidden');
+            if (hiddenCards.length > 0) {
+                hiddenCards.forEach(card => {
+                    card.classList.remove('testi-card-hidden');
+                    card.classList.add('is-visible');
+                });
+                btnLoadMoreTesti.innerHTML = `
+                    <span>Konsultasi & Bukti Lainnya di WA</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 6px;">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                `;
+            } else {
+                window.open('https://wa.me/6285218801311?text=Halo%20Exora%20Digital,%20saya%20ingin%20melihat%20bukti%20transaksi%20dan%20konsultasi%20layanan', '_blank');
+            }
         });
     }
 

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "exora-t-1",
+    "name": "R***n A.",
+    "package": "Akun Pribadi (18 Bulan)",
+    "rating": 5,
+    "date": "28 Agustus 2026",
+    "images": [
+      "assets/testimonials/testi-01.webp"
+    ],
+    "verified": true,
+    "comment": "Proses cepat banget gak sampe 5 menit langsung masuk 5 TB dan Gemini Pro aktif. Mantap!"
+  },
+  {
+    "id": "exora-t-2",
+    "name": "D***s P.",
+    "package": "Invite Sharing Family (18 Bulan)",
+    "rating": 5,
+    "date": "27 Agustus 2026",
+    "images": [
+      "assets/testimonials/testi-02.webp"
+    ],
+    "verified": true,
+    "comment": "Awalnya ragu tapi ternyata beneran aman dan privasi file tetep privat. Adminnya fast respon."
+  },
+  {
+    "id": "exora-t-3",
+    "name": "A***d F.",
+    "package": "Akun Pribadi (18 Bulan)",
+    "rating": 5,
+    "date": "26 Agustus 2026",
+    "images": [
+      "assets/testimonials/testi-03.webp"
+    ],
+    "verified": true,
+    "comment": "Hemat banget dibanding langganan resmi bulanan. Fitur Deep Research-nya ngebantu skripsi."
+  }
+]

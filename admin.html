@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    <title>Exora Admin | Manajemen Testimoni</title>
+    
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-body: #0F172A;
+            --bg-card: #1E293B;
+            --bg-card-hover: #26354D;
+            --bg-input: #0B1120;
+            --border-color: #334155;
+            --border-focus: #38BDF8;
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --text-muted: #64748B;
+            --accent-blue: #38BDF8;
+            --accent-green: #10B981;
+            --accent-red: #EF4444;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --radius-full: 9999px;
+            --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+            padding-bottom: 60px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        /* Header / Navbar */
+        .admin-nav {
+            background-color: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .admin-nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 68px;
+        }
+
+        .brand-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .brand-logo-img {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .brand-title-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+
+        .brand-badge {
+            font-size: 11px;
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        .nav-right-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.12);
+            color: #F87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 7px 16px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.25);
+            color: #FFFFFF;
+        }
+
+        /* Authentication View */
+        .auth-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 40px 20px;
+        }
+
+        .auth-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 36px 30px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+        }
+
+        .auth-icon-badge {
+            width: 56px;
+            height: 56px;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            color: var(--accent-blue);
+            font-size: 24px;
+        }
+
+        .auth-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .auth-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 10px 14px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        .btn-submit-login {
+            width: 100%;
+            background: #2563EB;
+            color: #FFFFFF;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .btn-submit-login:hover {
+            background: #1D4ED8;
+        }
+
+        .alert-box {
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #FCA5A5;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #6EE7B7;
+        }
+
+        /* Dashboard Views */
+        .dashboard-container {
+            margin-top: 30px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 24px;
+        }
+
+        .dashboard-headline {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .dashboard-subheadline {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 860px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .panel-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-row-inline {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-inline-action {
+            background: #334155;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 0 14px;
+            border-radius: var(--radius-md);
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-inline-action:hover {
+            background: var(--border-focus);
+            color: #0F172A;
+        }
+
+        /* Dropzone / Upload Area */
+        .dropzone-box {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px 16px;
+            text-align: center;
+            background: rgba(11, 17, 32, 0.5);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .dropzone-box:hover, .dropzone-box.dragover {
+            border-color: var(--accent-blue);
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .dropzone-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .dropzone-text {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .dropzone-hint {
+            font-size: 11.5px;
+            color: var(--text-muted);
+        }
+
+        .file-hidden-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Image Previews Strip */
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 9/16;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-remove-img {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(239, 68, 68, 0.85);
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-add-testi {
+            width: 100%;
+            background: var(--accent-green);
+            color: #064E3B;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-add-testi:hover {
+            background: #34D399;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Testimonial List Items */
+        .testi-list-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 520px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .testi-list-item {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            justify-content: space-between;
+        }
+
+        .item-main-info {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .item-thumb-strip {
+            display: flex;
+            gap: 4px;
+        }
+
+        .item-thumb {
+            width: 44px;
+            height: 64px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+        }
+
+        .item-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .item-tag {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            margin: 4px 0;
+        }
+
+        .item-date {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .item-comment {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .btn-delete-item {
+            background: transparent;
+            color: #EF4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-delete-item:hover {
+            background: #EF4444;
+            color: white;
+        }
+
+        /* Action Center & Push Box */
+        .push-helper-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            margin-top: 24px;
+        }
+
+        .push-helper-headline {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .push-helper-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .action-btn-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-download-assets {
+            background: #2563EB;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-download-assets:hover {
+            background: #1D4ED8;
+        }
+
+        .badge-verified-mini {
+            color: var(--accent-green);
+            font-size: 11px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Admin Navigation -->
+    <header class="admin-nav">
+        <div class="container admin-nav-content">
+            <div class="brand-block">
+                <img src="logo.png" alt="Exora Logo" class="brand-logo-img">
+                <div class="brand-title-wrap">
+                    <span class="brand-title">Exora Digital</span>
+                    <span class="brand-badge">Admin Testimoni Panel</span>
+                </div>
+            </div>
+            <div class="nav-right-actions" id="nav-actions" style="display: none;">
+                <button type="button" class="btn-logout" id="btn-logout">Keluar (Logout)</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: AUTHENTICATION SCREEN -->
+    <main class="auth-wrapper" id="auth-screen">
+        <div class="auth-card">
+            <div class="auth-icon-badge">🔒</div>
+            <h1 class="auth-title">Akses Khusus Admin</h1>
+            <p class="auth-desc">Masukkan kredensial otentikasi resmi untuk mengelola testimoni.</p>
+
+            <div class="alert-box alert-danger" id="login-error-alert">Username atau password salah.</div>
+
+            <form id="login-form" autocomplete="off">
+                <div class="form-group">
+                    <label class="form-label" for="login-user">Username</label>
+                    <input type="text" class="form-input" id="login-user" placeholder="Masukkan username" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="login-pass">Password</label>
+                    <input type="password" class="form-input" id="login-pass" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-submit-login" id="btn-submit-login">Masuk Dashboard</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- SECTION 2: ADMIN DASHBOARD (HIDDEN UNTIL AUTHENTICATED) -->
+    <main class="container dashboard-container" id="dashboard-screen" style="display: none;">
+        <div class="dashboard-header">
+            <h1 class="dashboard-headline">Kelola Testimoni Pelanggan</h1>
+            <p class="dashboard-subheadline">Upload screenshot bukti transaksi (multi-foto), sensor nama otomatis, dan kompresi WebP instan.</p>
+        </div>
+
+        <div class="admin-grid">
+            <!-- Left Column: Add Testimonial Form -->
+            <div class="card-panel">
+                <h2 class="panel-title"><span>➕</span> Tambah Testimoni Baru</h2>
+
+                <form id="add-testi-form">
+                    <div class="form-group">
+                        <label class="form-label">Nama Pelanggan</label>
+                        <div class="input-row-inline">
+                            <input type="text" class="form-input" id="cust-name" placeholder="Misal: Ahmad Santoso" required>
+                            <button type="button" class="btn-inline-action" id="btn-auto-mask" title="Sensor nama otomatis dengan bintang">🔒 Sensor Otomatis</button>
+                        </div>
+                        <small style="font-size: 11px; color: var(--text-muted); margin-top: 4px; display: block;">Format sensor privasi: <code>A***d S*****o</code></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Pilihan Paket yang Dibeli</label>
+                        <select class="form-select" id="cust-package" required>
+                            <option value="Akun Pribadi (18 Bulan)">Akun Pribadi (18 Bulan)</option>
+                            <option value="Invite Sharing Family (18 Bulan)">Invite Sharing Family (18 Bulan)</option>
+                            <option value="Akun Pribadi 5 TB">Akun Pribadi 5 TB</option>
+                            <option value="Family Sharing 5 TB">Family Sharing 5 TB</option>
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div class="form-group">
+                            <label class="form-label">Rating</label>
+                            <select class="form-select" id="cust-rating">
+                                <option value="5">⭐⭐⭐⭐⭐ (5.0 / 5)</option>
+                                <option value="4">⭐⭐⭐⭐ (4.0 / 5)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tanggal Transaksi</label>
+                            <input type="text" class="form-input" id="cust-date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Catatan / Ulasan Pelanggan (Opsional)</label>
+                        <textarea class="form-textarea" id="cust-comment" rows="2" placeholder="Contoh: Proses cepat banget, langsung aktif 5 TB. Mantap!"></textarea>
+                    </div>
+
+                    <!-- Drag & Drop Multi-Image Uploader -->
+                    <div class="form-group">
+                        <label class="form-label">Screenshot Bukti Transaksi (Bisa 1 atau Lebih)</label>
+                        <div class="dropzone-box" id="dropzone">
+                            <input type="file" class="file-hidden-input" id="image-file-input" accept="image/png, image/jpeg, image/webp" multiple>
+                            <div class="dropzone-icon">📸</div>
+                            <div class="dropzone-text">Pilih atau Tarik Screenshot ke Sini</div>
+                            <div class="dropzone-hint">Mendukung banyak foto sekaligus (Transfer, Chat WA, Bukti 5TB). Otomatis kompres WebP.</div>
+                        </div>
+
+                        <!-- Previews Grid -->
+                        <div class="image-preview-grid" id="preview-grid"></div>
+                    </div>
+
+                    <button type="submit" class="btn-add-testi" id="btn-submit-testi">
+                        <span>✓ Simpan Testimoni</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right Column: Testimonial List -->
+            <div class="card-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2 class="panel-title" style="margin-bottom: 0;"><span>📋</span> Daftar Testimoni Aktif</h2>
+                    <span id="testi-count-badge" style="font-size: 12px; background: #334155; padding: 3px 8px; border-radius: var(--radius-full);">0 Testimoni</span>
+                </div>
+
+                <div class="testi-list-wrapper" id="testi-list-container">
+                    <!-- Dynamic Testimonials Rendered Here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Push & Export Helper Box -->
+        <div class="push-helper-box">
+            <div class="push-helper-headline">
+                <span>🚀</span>
+                <span>Pusat Publikasi ke Website (GitHub Live Sync)</span>
+            </div>
+            <p class="push-helper-text">
+                Setelah menambahkan testimoni baru di atas, klik tombol <strong>"Download File Testimoni & Gambar"</strong> lalu beritahukan ke Antigravity: <em>"Tolong push testimoni baru ke GitHub"</em> agar langsung live di <strong>exoradigital.my.id</strong>.
+            </p>
+            <div class="action-btn-row">
+                <button type="button" class="btn-download-assets" id="btn-export-data">
+                    <span>📥 Download Data JSON & Gambar WebP</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- App Logic Script -->
+    <script>
+        (function() {
+            // Cryptographic Salt & Hash (SHA-256 with Salt for exoradigital:opay2139)
+            const SALT = "exora_sec_2026_salt";
+            const AUTH_HASH = "2d76e52fac515713149a4ea647ea30a26d6dadae0099ad1e9cad466eed34cdb5";
+            const SESSION_KEY = "exora_auth_session_token";
+            const STORAGE_KEY = "exora_local_testimonials";
+
+            // State
+            let currentTestimonials = [];
+            let uploadedWebpImages = []; // Stores { name: string, dataUrl: string, blob: Blob }
+            let failedAttempts = 0;
+            let lockoutUntil = 0;
+
+            // Elements
+            const authScreen = document.getElementById('auth-screen');
+            const dashboardScreen = document.getElementById('dashboard-screen');
+            const navActions = document.getElementById('nav-actions');
+            const loginForm = document.getElementById('login-form');
+            const loginErrorAlert = document.getElementById('login-error-alert');
+            const btnLogout = document.getElementById('btn-logout');
+
+            const addTestiForm = document.getElementById('add-testi-form');
+            const custNameInput = document.getElementById('cust-name');
+            const btnAutoMask = document.getElementById('btn-auto-mask');
+            const custPackageInput = document.getElementById('cust-package');
+            const custRatingInput = document.getElementById('cust-rating');
+            const custDateInput = document.getElementById('cust-date');
+            const custCommentInput = document.getElementById('cust-comment');
+            const imageFileInput = document.getElementById('image-file-input');
+            const previewGrid = document.getElementById('preview-grid');
+            const testiListContainer = document.getElementById('testi-list-container');
+            const testiCountBadge = document.getElementById('testi-count-badge');
+            const btnExportData = document.getElementById('btn-export-data');
+
+            // Default Today's Date in Indonesian format
+            const indonesianMonths = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const today = new Date();
+            custDateInput.value = `${today.getDate()} ${indonesianMonths[today.getMonth()]} ${today.getFullYear()}`;
+
+            // Helper: Compute SHA-256 Hash using Web Crypto API
+            async function computeSha256(text) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(text);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+
+            // Check existing session
+            async function checkSession() {
+                const token = sessionStorage.getItem(SESSION_KEY);
+                if (token === AUTH_HASH) {
+                    showDashboard();
+                } else {
+                    showAuth();
+                }
+            }
+
+            function showAuth() {
+                authScreen.style.display = 'flex';
+                dashboardScreen.style.display = 'none';
+                navActions.style.display = 'none';
+            }
+
+            function showDashboard() {
+                authScreen.style.display = 'none';
+                dashboardScreen.style.display = 'block';
+                navActions.style.display = 'flex';
+                loadTestimonials();
+            }
+
+            // Authentication Handler
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const now = Date.now();
+                if (now < lockoutUntil) {
+                    const remaining = Math.ceil((lockoutUntil - now) / 1000);
+                    loginErrorAlert.textContent = `Terlalu banyak percobaan gagal. Silakan coba lagi dalam ${remaining} detik.`;
+                    loginErrorAlert.style.display = 'block';
+                    return;
+                }
+
+                const username = document.getElementById('login-user').value.trim();
+                const password = document.getElementById('login-pass').value.trim();
+
+                const combinedInput = SALT + username + ':' + password;
+                const inputHash = await computeSha256(combinedInput);
+
+                if (inputHash === AUTH_HASH) {
+                    failedAttempts = 0;
+                    sessionStorage.setItem(SESSION_KEY, AUTH_HASH);
+                    loginErrorAlert.style.display = 'none';
+                    showDashboard();
+                } else {
+                    failedAttempts++;
+                    if (failedAttempts >= 4) {
+                        lockoutUntil = Date.now() + 180000; // 3 minutes lockout
+                        loginErrorAlert.textContent = "Akses dikunci selama 3 menit karena percobaan tidak valid.";
+                    } else {
+                        loginErrorAlert.textContent = `Username atau password salah. (Percobaan ke-${failedAttempts}/4)`;
+                    }
+                    loginErrorAlert.style.display = 'block';
+                }
+            });
+
+            btnLogout.addEventListener('click', function() {
+                sessionStorage.removeItem(SESSION_KEY);
+                showAuth();
+            });
+
+            // Name Auto-Masker (e.g., "Ahmad Santoso" -> "A***d S*****o")
+            btnAutoMask.addEventListener('click', function() {
+                const rawName = custNameInput.value.trim();
+                if (!rawName) return;
+
+                const words = rawName.split(/\s+/);
+                const maskedWords = words.map(word => {
+                    if (word.length <= 2) return word;
+                    if (word.length === 3) return word[0] + '*' + word[2];
+                    const stars = '*'.repeat(Math.max(1, word.length - 2));
+                    return word[0] + stars + word[word.length - 1];
+                });
+
+                custNameInput.value = maskedWords.join(' ');
+            });
+
+            // Image Auto-Compressor to WebP using HTML5 Canvas
+            async function compressToWebP(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            let width = img.width;
+                            let height = img.height;
+
+                            // Scale down if larger than 1200px width for max efficiency
+                            const MAX_WIDTH = 1200;
+                            if (width > MAX_WIDTH) {
+                                height = Math.round((height * MAX_WIDTH) / width);
+                                width = MAX_WIDTH;
+                            }
+
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            canvas.toBlob(function(blob) {
+                                if (!blob) {
+                                    resolve(null);
+                                    return;
+                                }
+                                const dataUrl = canvas.toDataURL('image/webp', 0.82);
+                                resolve({ blob, dataUrl });
+                            }, 'image/webp', 0.82);
+                        };
+                        img.onerror = reject;
+                        img.src = event.target.result;
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // Handle Multi-file selection & Drag/Drop
+            imageFileInput.addEventListener('change', async function(e) {
+                const files = Array.from(e.target.files);
+                for (const file of files) {
+                    if (!file.type.startsWith('image/')) continue;
+                    const compressed = await compressToWebP(file);
+                    if (compressed) {
+                        const filename = `testi-${Date.now()}-${uploadedWebpImages.length + 1}.webp`;
+                        uploadedWebpImages.push({
+                            name: filename,
+                            dataUrl: compressed.dataUrl,
+                            blob: compressed.blob
+                        });
+                    }
+                }
+                renderImagePreviews();
+                imageFileInput.value = '';
+            });
+
+            function renderImagePreviews() {
+                previewGrid.innerHTML = '';
+                uploadedWebpImages.forEach((imgObj, idx) => {
+                    const item = document.createElement('div');
+                    item.className = 'preview-item';
+                    
+                    const img = document.createElement('img');
+                    img.src = imgObj.dataUrl;
+                    
+                    const btnRemove = document.createElement('button');
+                    btnRemove.className = 'btn-remove-img';
+                    btnRemove.type = 'button';
+                    btnRemove.textContent = '✕';
+                    btnRemove.onclick = () => {
+                        uploadedWebpImages.splice(idx, 1);
+                        renderImagePreviews();
+                    };
+
+                    item.appendChild(img);
+                    item.appendChild(btnRemove);
+                    previewGrid.appendChild(item);
+                });
+            }
+
+            // Load Testimonials Data (from file/storage)
+            async function loadTestimonials() {
+                const localData = localStorage.getItem(STORAGE_KEY);
+                if (localData) {
+                    try {
+                        currentTestimonials = JSON.parse(localData);
+                        renderTestimonialsList();
+                        return;
+                    } catch (e) {
+                        console.error(e);
+                    }
+                }
+
+                try {
+                    const res = await fetch('data/testimonials.json');
+                    if (res.ok) {
+                        currentTestimonials = await res.json();
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentTestimonials));
+                    }
+                } catch (err) {
+                    console.log('Using local state', err);
+                }
+                renderTestimonialsList();
+            }
+
+            function renderTestimonialsList() {
+                testiListContainer.innerHTML = '';
+                testiCountBadge.textContent = `${currentTestimonials.length} Testimoni`;
+
+                if (currentTestimonials.length === 0) {
+                    testiListContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 13px; text-align: center; padding: 20px;">Belum ada testimoni.</p>';
+                    return;
+                }
+
+                currentTestimonials.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'testi-list-item';
+
+                    const mainInfo = document.createElement('div');
+                    mainInfo.className = 'item-main-info';
+
+                    // Thumbnail strip
+                    const thumbStrip = document.createElement('div');
+                    thumbStrip.className = 'item-thumb-strip';
+                    const imgList = item.images || (item.image ? [item.image] : []);
+                    imgList.forEach(src => {
+                        const img = document.createElement('img');
+                        img.src = src;
+                        img.className = 'item-thumb';
+                        img.alt = item.name;
+                        thumbStrip.appendChild(img);
+                    });
+
+                    // Details
+                    const details = document.createElement('div');
+                    details.className = 'item-details';
+
+                    const nameEl = document.createElement('h4');
+                    nameEl.textContent = item.name;
+
+                    const tagEl = document.createElement('span');
+                    tagEl.className = 'item-tag';
+                    tagEl.textContent = item.package;
+
+                    const dateEl = document.createElement('div');
+                    dateEl.className = 'item-date';
+                    dateEl.textContent = `${item.date} • ${'⭐'.repeat(item.rating || 5)}`;
+
+                    details.appendChild(nameEl);
+                    details.appendChild(tagEl);
+                    details.appendChild(dateEl);
+
+                    if (item.comment) {
+                        const commentEl = document.createElement('div');
+                        commentEl.className = 'item-comment';
+                        commentEl.textContent = `“${item.comment}”`;
+                        details.appendChild(commentEl);
+                    }
+
+                    mainInfo.appendChild(thumbStrip);
+                    mainInfo.appendChild(details);
+
+                    // Delete Action
+                    const btnDelete = document.createElement('button');
+                    btnDelete.className = 'btn-delete-item';
+                    btnDelete.textContent = 'Hapus';
+                    btnDelete.onclick = () => {
+                        if (confirm(`Hapus testimoni dari "${item.name}"?`)) {
+                            currentTestimonials.splice(index, 1);
+                            localStorage.setItem(STORAGE_KEY, JSON.stringify(currentTestimonials));
+                            renderTestimonialsList();
+                        }
+                    };
+
+                    div.appendChild(mainInfo);
+                    div.appendChild(btnDelete);
+                    testiListContainer.appendChild(div);
+                });
+            }
+
+            // Add Testimonial Form Submit
+            addTestiForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = custNameInput.value.trim();
+                const pkg = custPackageInput.value;
+                const rating = parseInt(custRatingInput.value, 10);
+                const date = custDateInput.value.trim();
+                const comment = custCommentInput.value.trim();
+
+                const imagePaths = [];
+                if (uploadedWebpImages.length > 0) {
+                    uploadedWebpImages.forEach(img => {
+                        imagePaths.push(`assets/testimonials/${img.name}`);
+                    });
+                } else {
+                    imagePaths.push('assets/testimonials/testi-01.webp');
+                }
+
+                const newTestimonial = {
+                    id: `exora-t-${Date.now()}`,
+                    name: name,
+                    package: pkg,
+                    rating: rating,
+                    date: date,
+                    images: imagePaths,
+                    verified: true,
+                    comment: comment
+                };
+
+                currentTestimonials.unshift(newTestimonial);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(currentTestimonials));
+                renderTestimonialsList();
+
+                // Trigger automatic download of new WebP images
+                uploadedWebpImages.forEach(img => {
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(img.blob);
+                    a.download = img.name;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                });
+
+                // Reset inputs
+                custNameInput.value = '';
+                custCommentInput.value = '';
+                uploadedWebpImages = [];
+                renderImagePreviews();
+
+                alert('Testimoni berhasil ditambahkan! File gambar .webp otomatis terunduh.');
+            });
+
+            // Export Data JSON
+            btnExportData.addEventListener('click', function() {
+                const dataStr = JSON.stringify(currentTestimonials, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'testimonials.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+
+            // Init
+            checkSession();
+        })();
+    </script>
+</body>
+</html>

@@ -84,6 +84,7 @@
                 <a href="#benefits" class="nav-link">Keunggulan</a>
                 <a href="#features" class="nav-link">Semua Fitur</a>
                 <a href="#pricing" class="nav-link">Pilihan Paket</a>
+                <a href="#testimonials" class="nav-link">Testimoni</a>
                 <a href="#faq" class="nav-link">FAQ</a>
             </div>
             <a href="#pricing" class="nav-cta">Pesan Sekarang</a>
@@ -549,6 +550,24 @@
         </div>
     </section>
 
+    <!-- SECTION: TESTIMONI & BUKTI TRANSAKSI -->
+    <section class="section section-light" id="testimonials">
+        <div class="container">
+            <div class="section-header text-center reveal">
+                <div class="badge-clean brand badge-shimmer" style="margin-bottom: 12px;">Bukti Nyata</div>
+                <h2 class="section-headline">Bukti Transaksi & Kepuasan Pelanggan</h2>
+                <p class="section-subheadline">
+                    Ratusan pengguna telah mempercayakan kapasitas penyimpanan Google Drive 5 TB dan ekosistem Google AI Pro mereka kepada Exora Digital.
+                </p>
+            </div>
+
+            <!-- Testimonials Grid (Menyeluruh Tanpa Filter) -->
+            <div class="testimonials-grid" id="testimonials-container">
+                <!-- Data testimoni akan dimuat secara dinamis atau fallback via JavaScript -->
+            </div>
+        </div>
+    </section>
+
     <!-- SECTION 13: FAQ -->
     <section class="section" id="faq">
         <div class="container">
@@ -777,6 +796,23 @@
             </div>
         </div>
     </footer>
+
+    <!-- LIGHTBOX IMAGE MODAL GALLERY -->
+    <div class="lightbox-modal" id="lightbox-modal" aria-hidden="true" role="dialog" aria-label="Pratinjau Bukti Transaksi">
+        <div class="lightbox-overlay" id="lightbox-overlay"></div>
+        <div class="lightbox-dialog">
+            <button class="lightbox-close" id="lightbox-close" aria-label="Tutup Pratinjau">✕</button>
+            <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Foto Sebelumnya">❮</button>
+            <div class="lightbox-img-wrapper">
+                <img src="" alt="Bukti Transaksi Exora Digital" class="lightbox-image" id="lightbox-img">
+                <div class="lightbox-info-bar">
+                    <span class="lightbox-title" id="lightbox-caption">Bukti Transaksi Terverifikasi</span>
+                    <span class="lightbox-counter" id="lightbox-counter">1 / 1</span>
+                </div>
+            </div>
+            <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Foto Berikutnya">❯</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

@@ -232,4 +232,307 @@ document.addEventListener('DOMContentLoaded', () => {
 
         checkItems.forEach(item => checkObserver.observe(item));
     }
+
+    // ─── 10. Testimonials & Lightbox Modal Gallery ───
+    const testimonialsContainer = document.getElementById('testimonials-container');
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxCounter = document.getElementById('lightbox-counter');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxOverlay = document.getElementById('lightbox-overlay');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
+
+    let currentGalleryImages = [];
+    let currentGalleryIndex = 0;
+    let currentGalleryCaption = '';
+
+    // Starter / Fallback Testimonials Data (Safe for local file:// preview)
+    const fallbackTestimonials = [
+        {
+            id: 'exora-t-1',
+            name: 'R***n A.',
+            package: 'Akun Pribadi (18 Bulan)',
+            rating: 5,
+            date: '28 Agustus 2026',
+            images: ['assets/testimonials/testi-01.webp'],
+            verified: true,
+            comment: 'Proses cepat banget gak sampe 5 menit langsung masuk 5 TB dan Gemini Pro aktif. Mantap!'
+        },
+        {
+            id: 'exora-t-2',
+            name: 'D***s P.',
+            package: 'Invite Sharing Family (18 Bulan)',
+            rating: 5,
+            date: '27 Agustus 2026',
+            images: ['assets/testimonials/testi-02.webp'],
+            verified: true,
+            comment: 'Awalnya ragu tapi ternyata beneran aman dan privasi file tetep privat. Adminnya fast respon.'
+        },
+        {
+            id: 'exora-t-3',
+            name: 'A***d F.',
+            package: 'Akun Pribadi (18 Bulan)',
+            rating: 5,
+            date: '26 Agustus 2026',
+            images: ['assets/testimonials/testi-03.webp'],
+            verified: true,
+            comment: 'Hemat banget dibanding langganan resmi bulanan. Fitur Deep Research-nya ngebantu skripsi.'
+        }
+    ];
+
+    // Render single testimonial card using safe DOM methods
+    function renderTestimonialCard(item) {
+        const images = item.images || (item.image ? [item.image] : ['assets/testimonials/testi-01.webp']);
+        
+        const card = document.createElement('div');
+        card.className = 'testimonial-card reveal';
+
+        // Image Cover Container
+        const imageCover = document.createElement('div');
+        imageCover.className = 'testi-image-cover';
+        imageCover.title = 'Klik untuk memperbesar bukti transaksi';
+
+        const mainImg = document.createElement('img');
+        mainImg.src = images[0];
+        mainImg.alt = `Bukti Transaksi ${item.name}`;
+        mainImg.loading = 'lazy';
+        imageCover.appendChild(mainImg);
+
+        // Photo Count Badge if multi-image
+        if (images.length > 1) {
+            const countPill = document.createElement('div');
+            countPill.className = 'testi-count-pill';
+            countPill.textContent = `📸 ${images.length} Bukti`;
+            imageCover.appendChild(countPill);
+        }
+
+        // Open Lightbox on click
+        imageCover.addEventListener('click', () => {
+            openLightbox(images, 0, `Bukti Transaksi - ${item.name} (${item.package})`);
+        });
+
+        // Card Body
+        const body = document.createElement('div');
+        body.className = 'testi-body';
+
+        // Meta Head (Name + Verified Tag)
+        const metaHead = document.createElement('div');
+        metaHead.className = 'testi-meta-head';
+
+        const nameEl = document.createElement('span');
+        nameEl.className = 'testi-name';
+        nameEl.textContent = item.name;
+
+        const verifiedTag = document.createElement('span');
+        verifiedTag.className = 'testi-verified-tag';
+        verifiedTag.innerHTML = `
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                <path d="M13.5 4.5L6.5 11.5L3 8" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Terverifikasi</span>
+        `;
+
+        metaHead.appendChild(nameEl);
+        metaHead.appendChild(verifiedTag);
+
+        // Package Row + Date
+        const pkgRow = document.createElement('div');
+        pkgRow.className = 'testi-pkg-row';
+
+        const pkgBadge = document.createElement('span');
+        pkgBadge.className = 'testi-pkg-badge';
+        pkgBadge.textContent = item.package || 'Akun Pribadi';
+
+        const dateEl = document.createElement('span');
+        dateEl.className = 'testi-date';
+        dateEl.textContent = item.date || 'Terverifikasi';
+
+        pkgRow.appendChild(pkgBadge);
+        pkgRow.appendChild(dateEl);
+
+        // Stars Row
+        const starsRow = document.createElement('div');
+        starsRow.className = 'testi-stars';
+        const ratingNum = item.rating || 5;
+        starsRow.textContent = '⭐'.repeat(Math.min(5, Math.max(1, ratingNum)));
+
+        body.appendChild(metaHead);
+        body.appendChild(pkgRow);
+        body.appendChild(starsRow);
+
+        // Comment / Quote (if any)
+        if (item.comment) {
+            const quoteEl = document.createElement('p');
+            quoteEl.className = 'testi-quote';
+            quoteEl.textContent = `“${item.comment}”`;
+            body.appendChild(quoteEl);
+        }
+
+        // Click to view hint button
+        const clickHint = document.createElement('div');
+        clickHint.className = 'testi-click-hint';
+        clickHint.innerHTML = `
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="11" y1="8" x2="11" y2="14"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+            <span>Lihat Bukti Screenshot</span>
+        `;
+        clickHint.addEventListener('click', () => {
+            openLightbox(images, 0, `Bukti Transaksi - ${item.name} (${item.package})`);
+        });
+
+        body.appendChild(clickHint);
+
+        card.appendChild(imageCover);
+        card.appendChild(body);
+
+        return card;
+    }
+
+    // Load and render all testimonials
+    async function loadTestimonials() {
+        if (!testimonialsContainer) return;
+
+        let dataToRender = fallbackTestimonials;
+
+        // Try checking local storage first for updated data
+        const localSaved = localStorage.getItem('exora_local_testimonials');
+        if (localSaved) {
+            try {
+                const parsed = JSON.parse(localSaved);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    dataToRender = parsed;
+                }
+            } catch (e) {}
+        } else {
+            // Try fetching from server data/testimonials.json
+            try {
+                const response = await fetch('data/testimonials.json');
+                if (response.ok) {
+                    const fetchedData = await response.json();
+                    if (Array.isArray(fetchedData) && fetchedData.length > 0) {
+                        dataToRender = fetchedData;
+                    }
+                }
+            } catch (err) {
+                // Fallback to static array on CORS or offline
+            }
+        }
+
+        testimonialsContainer.innerHTML = '';
+        dataToRender.forEach(item => {
+            const cardEl = renderTestimonialCard(item);
+            testimonialsContainer.appendChild(cardEl);
+        });
+
+        // Trigger reveal animation for newly added cards
+        if ('IntersectionObserver' in window) {
+            const newReveals = testimonialsContainer.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            newReveals.forEach(el => observer.observe(el));
+        } else {
+            testimonialsContainer.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+        }
+    }
+
+    // Lightbox Modal Functions
+    function openLightbox(images, index, caption) {
+        if (!lightboxModal || !images || images.length === 0) return;
+        currentGalleryImages = images;
+        currentGalleryIndex = index || 0;
+        currentGalleryCaption = caption || 'Bukti Transaksi';
+
+        updateLightboxView();
+        lightboxModal.classList.add('is-active');
+        lightboxModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden'; // Lock background scroll
+    }
+
+    function closeLightbox() {
+        if (!lightboxModal) return;
+        lightboxModal.classList.remove('is-active');
+        lightboxModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    function updateLightboxView() {
+        if (currentGalleryImages.length === 0) return;
+        lightboxImg.src = currentGalleryImages[currentGalleryIndex];
+        lightboxCaption.textContent = currentGalleryCaption;
+        
+        if (currentGalleryImages.length > 1) {
+            lightboxCounter.textContent = `${currentGalleryIndex + 1} / ${currentGalleryImages.length}`;
+            lightboxCounter.style.display = 'block';
+            lightboxPrev.style.display = 'flex';
+            lightboxNext.style.display = 'flex';
+        } else {
+            lightboxCounter.style.display = 'none';
+            lightboxPrev.style.display = 'none';
+            lightboxNext.style.display = 'none';
+        }
+    }
+
+    function nextImage() {
+        if (currentGalleryImages.length <= 1) return;
+        currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
+        updateLightboxView();
+    }
+
+    function prevImage() {
+        if (currentGalleryImages.length <= 1) return;
+        currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+        updateLightboxView();
+    }
+
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    if (lightboxOverlay) lightboxOverlay.addEventListener('click', closeLightbox);
+    if (lightboxNext) lightboxNext.addEventListener('click', nextImage);
+    if (lightboxPrev) lightboxPrev.addEventListener('click', prevImage);
+
+    // Keyboard navigation (ESC, Left, Right)
+    document.addEventListener('keydown', (e) => {
+        if (!lightboxModal || !lightboxModal.classList.contains('is-active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'ArrowLeft') prevImage();
+    });
+
+    // Touch Swipe gesture for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    if (lightboxModal) {
+        lightboxModal.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightboxModal.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+    }
+
+    function handleSwipe() {
+        const diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 45) {
+            if (diff < 0) nextImage();
+            else prevImage();
+        }
+    }
+
+    // Init testimonials loader
+    loadTestimonials();
 });
+

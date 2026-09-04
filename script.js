@@ -252,15 +252,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // Starter / Fallback Testimonials Data (Safe for local file:// preview & instant rendering)
     const fallbackTestimonials = [
         {
-            id: "exora-t-1788053872245",
+            id: "exora-t-1788495383864",
+            name: "D****s",
+            package: "Akun Pribadi (18 Bulan)",
+            rating: 5,
+            date: "4 September 2026",
+            images: [
+                "assets/testimonials/testi-1788495356364-1.webp",
+                "assets/testimonials/testi-1788495356947-2.webp",
+                "assets/testimonials/testi-1788495357465-3.webp"
+            ],
+            verified: true,
+            comment: ""
+        },
+        {
+            id: "exora-t-1788495293614",
+            name: "F**d",
+            package: "Akun Pribadi (18 Bulan)",
+            rating: 5,
+            date: "31 Agustus 2026",
+            images: [
+                "assets/testimonials/testi-1788495089450-1.webp",
+                "assets/testimonials/testi-1788495090052-2.webp",
+                "assets/testimonials/testi-1788495090625-3.webp"
+            ],
+            verified: true,
+            comment: ""
+        },
+        {
+            id: "exora-t-1788080245365",
             name: "H***s",
             package: "Akun Pribadi (18 Bulan)",
             rating: 5,
             date: "30 Agustus 2026",
             images: [
-                "assets/testimonials/testi-1788053865421-1.webp",
-                "assets/testimonials/testi-1788053866343-2.webp",
-                "assets/testimonials/testi-1788053867087-3.webp"
+                "assets/testimonials/testi-1788080210327-1.webp",
+                "assets/testimonials/testi-1788080211076-2.webp",
+                "assets/testimonials/testi-1788080235318-3.webp"
             ],
             verified: true,
             comment: ""
